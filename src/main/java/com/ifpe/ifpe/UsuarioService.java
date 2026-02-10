@@ -16,17 +16,38 @@ public class UsuarioService {
 	}
 
 	public void cadastrarUsuario(Usuario usuario) {
-		if (usuario == null ||
-			isNullOrEmpty(usuario.getNome()) ||
-			isNullOrEmpty(usuario.getEmail()) ||
-			isNullOrEmpty(usuario.getCpf()) ||
-			isNullOrEmpty(usuario.getEndereco()) ||
-			isNullOrEmpty(usuario.getSenha())) {
-			throw new IllegalArgumentException("Nenhum campo pode ser nulo ou vazio");
+		if (usuario == null) {
+			throw new IllegalArgumentException("Usuário não pode ser nulo");
 		}
+		if (isNullOrEmpty(usuario.getNome())) {
+			throw new IllegalArgumentException("Nome é obrigatório!");
+		}
+		if (isNullOrEmpty(usuario.getDataNascimento())) {
+			throw new IllegalArgumentException("Data de nascimento é obrigatória!");
+		}
+		if (isNullOrEmpty(usuario.getEmail())) {
+			throw new IllegalArgumentException("Email é obrigatório!");
+		}
+		if (isNullOrEmpty(usuario.getCpf())) {
+			throw new IllegalArgumentException("CPF é obrigatório!");
+		}
+		if (isNullOrEmpty(usuario.getSenha())) {
+			throw new IllegalArgumentException("Senha é obrigatória!");
+		}
+		if (isNullOrEmpty(usuario.getNumeroContato())) {
+			throw new IllegalArgumentException("Numero de contato é obrigatório!");
+		}
+		if (isNullOrEmpty(usuario.getCep())) {
+			throw new IllegalArgumentException("CEP é obrigatório!");
+		}
+		if (isNullOrEmpty(usuario.getNumero())) {
+			throw new IllegalArgumentException("Número é obrigatório!");
+		}
+		// Validação de email já cadastrado
 		if (repository.existePorEmail(usuario.getEmail())) {
 			throw new IllegalArgumentException("Email já cadastrado");
 		}
+		// Validação de CPF já cadastrado
 		if (repository.existePorCpf(usuario.getCpf())) {
 			throw new IllegalArgumentException("CPF já cadastrado");
 		}
@@ -36,6 +57,7 @@ public class UsuarioService {
 		if (usuario.getSenha().length() < 8) {
 			throw new IllegalArgumentException("Senha deve ter no mínimo 8 caracteres");
 		}
+		
 		repository.salvar(usuario);
 	}
 
